@@ -35,7 +35,7 @@ Full write-up of methodology, results and discussion in
 | 1d — Vega | Model Vega €150,587.30 vs. Market Vega €144,281.78 per 1% shift — a €6,306 recalibration effect |
 | 1e — Delta hedge | Exact and backward-substitution solves agree to the cent; 10y receiver-swap notional (€32.49M) dominates |
 | 1f — Vega hedge | 6y/10y cap notionals of $-$€16.0M / $-$€47.5M; exact = triangular solve |
-| 2b — Exotic cap (BMM, MC) | $0.6254\%\pm0.0022\%$ (95% CI $[0.6211\%,0.6297\%]$), $N=10{,}000$ paths |
+| 2b — Exotic cap (BMM, MC) | $0.6134\%\pm0.0023\%$ (95% CI $[0.6089\%,0.6179\%]$), $N=10{,}000$ paths |
 
 Two things worth flagging, because they are easy to miss:
 
@@ -45,7 +45,7 @@ and describing its qualitative features, calibration quality here is
 checked by comparing market cap prices against model cap prices and their
 difference, directly on the pricing grid (Figure 1). This is a strictly
 quantitative pass/fail check: the LMM bootstrap recovers market prices to
-$\sim7\times10^{-10}$ and the BMM bootstrap to $\sim7\times10^{-12}$ —
+$\sim7\times10^{-10}$ and the BMM bootstrap to $\sim8\times10^{-12}$ —
 both far inside the $\pm10^{-8}$ tolerance enforced on the plot — rather
 than "the shape looks right."
 
@@ -65,8 +65,11 @@ the full expiry/strike grid, rather than a spot-vol surface plot.*
 ![Delta-bucket DV01 sensitivities across all calibration pillars](figures/dv01_buckets.png)
 
 *Exercise 1c — Bucket DV01 sensitivities. Risk is overwhelmingly
-concentrated in the 10-year swap pillar, driven by discounting the €50M
-principal repayment at maturity.*
+concentrated in the 10-year swap pillar. No principal is exchanged in the
+swap: the floating leg paid by Party A and the floating part of Party B's
+coupons almost offset each other, and the 10y exposure is the delta of the
+caplets and digitals embedded in Party B's coupons, whose 5.4% strike sits
+close to the 9–10y forwards (≈5%).*
 
 ## Method notes (non-obvious choices)
 
@@ -90,7 +93,11 @@ principal repayment at maturity.*
 - **Ex. 2b (exotic cap)** — priced by a single spot/rolling-measure Monte
   Carlo. The payoff's strike depends on the previous Libor fixing, so it
   cannot be priced off a closed-form caplet formula with a deterministic
-  strike and requires full path simulation.
+  strike and requires full path simulation. The time grid contains every
+  fixing date, so each Libor is read exactly at its reset; since the BMM
+  volatilities and the spot-measure drift are constant between two
+  fixings, each log-Euler step is exact and the price does not depend on
+  the step size.
 
 ## Repository layout
 

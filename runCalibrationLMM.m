@@ -7,8 +7,8 @@ function [priceErrorsLMM, marketCapPrices, modelCapPricesLMM, spotVolGrid, fullC
 %       market : A structure containing the market data with the following fields:
 %                - dates      : Array of dates for the discount curve (first element is RefDate).
 %                - discounts  : Array of discount factors corresponding to market.dates.
-%                - maturities : Column vector of cap maturities in years (e.g., 1 to 20).
-%                - strikes    : Column vector of cap strikes in percentage (e.g., 2.0 for 2%).
+%                - maturities : Column vector of cap maturities in years.
+%                - strikes    : Column vector of cap strikes in percentage.
 %                - vols       : Matrix of market flat volatilities in percentage.
 %                               Rows = maturities, Columns = strikes.
 %
@@ -75,7 +75,7 @@ volCells = arrayfun(@(j) bootstrapSingleStrike(j, strikes, flatVols, ...
     1:numStrikes, 'UniformOutput', false);
 
 % volCells is a cell array of column vectors. We concatenate them horizontally
-% to rebuild the 79x13 output matrix.
+% to rebuild the 80x13 output matrix.
 fullCapletVolsLMM = horzcat(volCells{:});
 
 [priceErrorsLMM, marketCapPrices, modelCapPricesLMM] = ComparePrices(flatVols, numStrikes, ...

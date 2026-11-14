@@ -3,7 +3,7 @@ function [Notionals_Exact, Sigma_Swaps] = runEx1e(market, contract, curveDatesSe
 %
 %   This wrapper function prepares the required pricing arrays and market maturities,
 %   builds the hedging swap instruments, loops through the three macro-buckets (2y, 6y, 10y)
-%   to compute the DV01 sensitivities, and solves the lower-triangular hedging system.
+%   to compute the DV01 sensitivities, and solves the upper-triangular hedging system.
 %
 %   INPUTS:
 %       market            : Struct containing the base bootstrapped market curve
@@ -20,7 +20,7 @@ function [Notionals_Exact, Sigma_Swaps] = runEx1e(market, contract, curveDatesSe
 %       Notionals         : A 3x1 column vector containing the required Notional amounts
 %                           (in EUR) to buy/sell for the 2y, 6y, and 10y swaps respectively
 %                           to completely Delta-hedge the structured bond.
-%       Sigma_Swaps       : A 3x3 lower-triangular matrix containing the DV01 sensitivities
+%       Sigma_Swaps       : A 3x3 upper-triangular matrix containing the DV01 sensitivities
 %                           of the 3 hedging swaps to the 3 macro-buckets.
 
 % Setup the pre-requisite arrays for the Bond Pricer

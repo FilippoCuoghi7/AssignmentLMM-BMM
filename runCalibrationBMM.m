@@ -75,7 +75,7 @@ volCells = arrayfun(@(j) bootstrapSingleStrikeBMM(j, strikes, flatVols, ...
     1:numStrikes, 'UniformOutput', false);
 
 % volCells is a cell array of column vectors. We concatenate them horizontally
-% to rebuild the 79x13 output matrix.
+% to rebuild the 80x13 output matrix.
 fullCapletVols = horzcat(volCells{:});
 
 [priceErrorsBMM, marketCapPrices, modelCapPricesBMM] = ComparePricesBMM(flatVols, numStrikes, ...
